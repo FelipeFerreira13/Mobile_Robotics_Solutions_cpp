@@ -4,8 +4,9 @@ void PWM_Motor::DisplayVMXError(VMXErrorCode vmxerr) {
 	const char *p_err_description = GetVMXErrorString(vmxerr);
 	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
 }
+PWM_Motor::PWM_Motor( ){}
 
-PWM_Motor::PWM_Motor( VMXPi *vmx, int INA, int INB){
+void PWM_Motor::Init( VMXPi *vmx, int INA, int INB){
     this->vmx = vmx;
     try {
 		if(vmx->IsOpen()) {
@@ -71,7 +72,7 @@ PWM_Motor::~PWM_Motor(){
 
 
 bool PWM_Motor::SetMotorPWM( double pwm ){
-    printf("duty_cycle set to %f \n", pwm);
+    // printf("duty_cycle set to %f \n", pwm);
 
     double duty_cycle = ( abs(pwm) * 255.0 );
 

@@ -5,7 +5,9 @@ void EncoderMotor::DisplayVMXError(VMXErrorCode vmxerr) {
 	const char *p_err_description = GetVMXErrorString(vmxerr);
 	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
 }
-EncoderMotor::EncoderMotor(VMXPi *vmx, uint8_t encoder){
+EncoderMotor::EncoderMotor(){}
+
+void EncoderMotor::Init(VMXPi *vmx, uint8_t encoder){
     this->vmx = vmx;
 	this->encoder_index = encoder;
 	try {
@@ -47,10 +49,9 @@ EncoderMotor::~EncoderMotor(){}
 int EncoderMotor::GetEncoderCount( ){
 	int counter;
 	if (vmx->io.Encoder_GetCount(encoder_res_handle, counter, &vmxerr)) {
-		printf("%d ", counter);
 		VMXIO::EncoderDirection encoder_direction;
 		if(vmx->io.Encoder_GetDirection(encoder_res_handle, encoder_direction, &vmxerr)) {
-			printf("%s\t", (encoder_direction == VMXIO::EncoderForward) ? "F" : "R");
+			// printf("%s\t", (encoder_direction == VMXIO::EncoderForward) ? "F" : "R");
 		} else {
 			printf("Error retrieving Encoder %d direction.\n", encoder_index);
 			DisplayVMXError(vmxerr);

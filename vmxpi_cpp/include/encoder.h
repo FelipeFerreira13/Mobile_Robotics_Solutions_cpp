@@ -15,7 +15,8 @@ class EncoderMotor{
 		VMXResourceHandle encoder_res_handle;
 
 	public:
-		EncoderMotor(VMXPi *vmx, uint8_t encoder);
+		EncoderMotor();
+		void Init(VMXPi *vmx, uint8_t encoder);
 		~EncoderMotor();
 		
 		int GetEncoderCount( );
