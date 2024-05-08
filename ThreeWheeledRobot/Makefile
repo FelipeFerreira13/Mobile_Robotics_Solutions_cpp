@@ -1,6 +1,6 @@
 CXX=g++
-CXXFLAGS=-I/usr/local/include/vmxpi -L/usr/local/lib/vmxpi -lvmxpi_hal_cpp -lrt -lpthread -I/home/pi/Desktop/vmxpi_cpp/vmxpi_io/include -I./include
-SRC_DIR_cpp=/home/pi/Desktop/vmxpi_cpp/vmxpi_io/src
+CXXFLAGS=-I/usr/local/include/vmxpi -L/usr/local/lib/vmxpi -lvmxpi_hal_cpp -lrt -lpthread -I/home/pi/Desktop/Mobile_Robot_VMXpi_HAL/vmxpi_cpp/include -I./include
+SRC_DIR_cpp=/home/pi/Desktop/Mobile_Robot_VMXpi_HAL/vmxpi_cpp/src
 SOURCES=$(wildcard $(SRC_DIR_cpp)/*.cpp)
 SRC_DIR = src
 SOURCES+=$(wildcard $(SRC_DIR)/*.cpp)
@@ -28,8 +28,9 @@ clean: $(patsubst %.cpp, %.clean, $(CLEAN))
 	rm -f $(@:.clean=)
 
 run:
+	rm -f $(CLEAN:.cpp=)
+	$(CXX) $(MAIN) $(SOURCES) -o $(MAIN:.cpp=) $(CXXFLAGS)
 	sudo ./$(MAIN:.cpp=)
-	rm -f $(@:.clean=)
 
 
 -include $(DEPS)

@@ -11,8 +11,7 @@
 #include <inttypes.h>
 
 #include "math.h"
-#include "pwm.h"
-#include "digital_outputs.h"
+
 
 inline VMXPi *vmx_ptr;
 

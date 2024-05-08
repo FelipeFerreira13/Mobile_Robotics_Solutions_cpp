@@ -1,4 +1,4 @@
-#include "Arduino.h"
+#include "functions.h"
 
 
 // void analogWrite( int pin, int value)
