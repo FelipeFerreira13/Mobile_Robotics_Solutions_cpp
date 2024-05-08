@@ -28,8 +28,6 @@ clean: $(patsubst %.cpp, %.clean, $(CLEAN))
 	rm -f $(@:.clean=)
 
 run:
-	rm -f $(CLEAN:.cpp=)
-	$(CXX) $(MAIN) $(SOURCES) -o $(MAIN:.cpp=) $(CXXFLAGS)
 	sudo ./$(MAIN:.cpp=)
 
 

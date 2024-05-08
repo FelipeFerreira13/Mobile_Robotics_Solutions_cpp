@@ -1,73 +1,34 @@
+#include "hardware_interface.h"
 #include "functions.h"
 #include "constants.h"
-
-#include "encoder.h"
-#include "pwm.h"
-#include "pwm_motor.h"
-#include "digital_outputs.h"
-
+#include "movement.h"
 
 int main(int argc, char *argv[])
 {
 	system("/usr/local/frc/bin/frcKillRobot.sh");
-	
 	
 	bool realtime = true;
 	uint8_t update_rate_hz = 50;
 	VMXPi vmx(realtime, update_rate_hz);
 	vmx_ptr = &vmx;
 
-	Serial Serial;
+	enc_left.Init( &vmx, ENCODER_LEFT );
+	enc_right.Init( &vmx, ENCODER_RIGHT );
+	enc_back.Init( &vmx, ENCODER_BACK );
+	enc_elevator.Init( &vmx, ENCODER_ELEVATOR );
 
-	EncoderMotor enc( &vmx, ENCODER_LEFT );
+	motor_left.Init( &vmx, MOTOR_LEFT_0, MOTOR_LEFT_1 );
+	motor_right.Init( &vmx, MOTOR_RIGHT_0, MOTOR_RIGHT_1 );
+	motor_back.Init( &vmx, MOTOR_BACK_0, MOTOR_BACK_1 );
+	motor_elevator.Init( &vmx, MOTOR_ELEVATOR_0, MOTOR_ELEVATOR_1 );
 
-	PWM_Motor M0_in1( &vmx, MOTOR_LEFT_0, MOTOR_LEFT_1 );
-	// PWM_Motor M0_in2( &vmx, MOTOR_LEFT_1, MOTOR_LEFT_1 );
+	motor_left.SetMotorPWM(0);
+	motor_right.SetMotorPWM(0);
+	motor_back.SetMotorPWM(0);
+	motor_elevator.SetMotorPWM(0);
 
-	
+	PositionDriver( 10, 0, 0 );
 
-    int prev = enc.GetEncoderCount();
-	// M0_in1.SetMotorPWM( 0.1 );
-
-	// for (int i = 0; i < 128; i++){
-	//   int current = enc.GetEncoderCount();
-	//   printf("diff: %d\n", current - prev);
-	//   prev = current;
-	//   M0_in1.SetMotorPWM( 0 );
-	//   M0_in2.SetMotorPWM( i/255.0 );
-	//   delay(100);
-	// }
-
-	delay(1000);
-	M0_in1.SetMotorPWM( 0.2 );
-	// M0_in2.SetMotorPWM( 0.3 );
-	delay(2000);
-	M0_in1.SetMotorPWM( -0.2 );
-	// M0_in2.SetMotorPWM( 0.0 );
-	delay(4000);
-	M0_in1.SetMotorPWM( 0 );
-	// M0_in2.SetMotorPWM( 1 );
-	delay(1000);
-
-
-
-	// M0_in1.SetAngle( 0 );
-	// M0_in2.SetAngle( 100 );
-
-	// delay( 2000 );
-
-	// M0_in1.SetAngle( 0 );
-	// M0_in2.SetAngle( 0 );
-
-	// delay( 2000 );
-
-	// M0_in1.SetAngle( 100 );
-	// M0_in2.SetAngle( 0 );
-
-	// delay( 2000 );
-
-
-	Serial.~Serial();
 	return 0;
 
 }
