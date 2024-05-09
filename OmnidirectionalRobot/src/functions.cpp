@@ -43,6 +43,18 @@ int max( int x, int y ){ return x > y ? x : y; }
 double min( double x, double y ){ return x > y ? y : x; }
 int min( int x, int y ){ return x > y ? y : x; }
 
-void piMode( int pin, int mode){}
+void rotateFrame( float &x, float &y, float angle ){
+  float x_aux = (cos( angle ) * (x)) + (-sin(angle) * (y));
+  float y_aux = (sin( angle ) * (x)) + ( cos(angle) * (y));
 
+  x = x_aux;
+  y = y_aux;
+}
+
+double Remainder( double x, double y ){
+    double Quotient = floor( x / y );
+    double Remainder = x - (y * Quotient);
+
+    return Remainder;
+}
 

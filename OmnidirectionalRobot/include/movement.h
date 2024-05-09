@@ -18,6 +18,9 @@ static int previous_enc_l = 0;
 static int current_enc_r = 0;
 static int previous_enc_r = 0;
 
+static int current_enc_b = 0;
+static int previous_enc_b = 0;
+
 //Desired Speed
 static float setPoint_linear = 0;   // [cm/s]
 static float setPoint_angular = 0;  // [rad/s]

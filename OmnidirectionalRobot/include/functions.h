@@ -26,7 +26,8 @@ double max( double x, double y );
 int max( int x, int y );
 double min( double x, double y );
 int min( int x, int y );
-void piMode( int pin, int mode);
 
+void rotateFrame( float &x, float &y, float angle );
+double Remainder( double x, double y );
 
 #endif

@@ -1,7 +1,5 @@
 #include "movement.h"
 
-
-
 class simpleControl{
   private:
     const float max_motor_speed = 60.0; // [cm/s]
@@ -24,7 +22,7 @@ class simpleControl{
 
       printf("correction: %f\n", correction);
 
-      Desired_PWM = max( min( Desired_PWM + correction, 255.0 ),  -255.0 );
+      Desired_PWM = max( min( Desired_PWM + correction, 150.0 ),  -150.0 );
 
       if (desiredSpeed == 0){ Desired_PWM = 0; }
 
@@ -32,6 +30,10 @@ class simpleControl{
     }
 };
 
+void backMotor( float PWM ){
+    PWM = PWM / 255.0;
+    motor_back.SetMotorPWM( PWM );
+}
 
 void leftMotor( float PWM ){
     PWM = PWM / 255.0;
@@ -48,13 +50,16 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
     bool reach_linear_tol  = false;
     bool reach_angular_tol = false;
    
-    float move_magnitude = 0;
-
     current_time = millis();
     previous_time - millis();
 
     simpleControl leftControl;
     simpleControl rightControl;
+    simpleControl backControl;
+
+    float desired_vx;
+    float desired_vy;
+    float desired_vth;
 
     do{
         current_time = millis();
@@ -69,19 +74,27 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         float delta_enc_r = current_enc_r - previous_enc_r;
         previous_enc_r = current_enc_r;
 
-        //Wheels Velocity
-        float leftVelocity  = (((2 * PI * wheelRadius * delta_enc_l) / ((ticksPerRev * 2) * delta_time)));   // [cm/s]
-        float rightVelocity = (((2 * PI * wheelRadius * delta_enc_r) / ((ticksPerRev * 2) * delta_time)));   // [cm/s]
+        current_enc_b = enc_back.GetEncoderCount();
+        float delta_enc_b = current_enc_b - previous_enc_b;
+        previous_enc_b = current_enc_b;
 
-        if ( isnan(leftVelocity) ) { leftVelocity  = 0; }
+        //Wheels Velocity
+        float leftVelocity  = (((2 * PI * wheelRadius * delta_enc_l) / (ticksPerRev * delta_time)));   // [cm/s]
+        float rightVelocity = (((2 * PI * wheelRadius * delta_enc_r) / (ticksPerRev * delta_time)));   // [cm/s]
+        float backVelocity  = (((2 * PI * wheelRadius * delta_enc_b) / (ticksPerRev * delta_time)));   // [cm/s]
+
+        if ( isnan(leftVelocity)  ){ leftVelocity  = 0; }
         if ( isnan(rightVelocity) ){ rightVelocity = 0; }
+        if ( isnan(backVelocity)  ){ backVelocity  = 0; }
 
         float th_radius = (( th / 180.0 ) * PI);  //Robot Global Position on the Th axis  [rad]
         
         //Forward Kinematics
-        float vx  = (( rightVelocity + leftVelocity ) / 2) * cos( th_radius );  // [cm/s]
-        float vy  = (( rightVelocity + leftVelocity ) / 2) * sin( th_radius );  // [cm/s]
-        float vth = (( rightVelocity - leftVelocity ) / frameRadius) * 0.525;             // [rad/s]
+        float vx   = ( (      0     * backVelocity ) + ( (1.0/sqrt(3.0)) * rightVelocity) + ( (-1.0/sqrt(3.0)) * leftVelocity) );                // [cm/s]
+        float vy   = ( ( (-2.0/3.0) * backVelocity ) + (    (1.0/3.0)    * rightVelocity) + (     (1.0/3.0)    * leftVelocity) );                // [cm/s]
+        float vth  = ( ( ( 1.0/3.0) * backVelocity ) + (    (1.0/3.0)    * rightVelocity) + (     (1.0/3.0)    * leftVelocity) ) / frameRadius ; // [rad/s]
+        
+        rotateFrame( vx, vy, (th/180) * PI ); // Rotate from Local Frame to Global Frame
 
         //Robot Displacement
         float delta_x  = vx  * delta_time;
@@ -93,7 +106,7 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         y  = y  + delta_y;
         th = th + ((delta_th / PI) * 180);  //  [degrees/s]
 
-        th = remainder(th, 360);
+        th = Remainder(th, 360);
 
         float desired_position[3] = { desired_x, desired_y, desired_th };  // [cm], [cm], [degrees]
         float current_position[3] = { x , y, th };  // [cm], [cm], [degrees]
@@ -102,65 +115,69 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         float y_diff  = desired_position[1] - current_position[1];
         float th_diff = desired_position[2] - current_position[2];
 
-        float move_ang = atan2( y_diff, x_diff ); // [rad]
-        move_ang = (move_ang / PI) * 180;         // [degrees]
+        if      ( th_diff < -180 ) { th_diff = th_diff + 360; }
+        else if ( th_diff >  180 ) { th_diff = th_diff - 360; }
 
-        move_magnitude = sqrt( pow( x_diff, 2 ) + pow( y_diff, 2 ) ); // [cm]
+        float max_linear_speed = 10.0; // cm/s
+        float max_ang_speed = 0.5; // rad/s
 
-        //When the robot reaches the linear goal tries to reach the desired angle
-        if ( move_magnitude < linear_tolerance || reach_linear_tol ){
-          reach_linear_tol = true;
-          move_magnitude = 0;
-          move_ang = th_diff;
-        }
-        else{
-          move_ang = move_ang - current_position[2];
-        }
+        desired_vx = map_func( x_diff, -30.0, 30.0, -1 * max_linear_speed, max_linear_speed );  // [cm], [cm], [cm], [cm/s], [cm/s]
+        desired_vx = max( min( desired_vx, max_linear_speed ), -1 * max_linear_speed );
+        if( abs(x_diff) < linear_tolerance ){ desired_vx = 0; }
 
-        if      ( move_ang < -180 ) { move_ang = move_ang + 360; }
-        else if ( move_ang >  180 ) { move_ang = move_ang - 360; }
+        desired_vy = map_func( y_diff, -30.0, 30.0, -1 * max_linear_speed, max_linear_speed );  // [cm], [cm], [cm], [cm/s], [cm/s]
+        desired_vy = max( min( desired_vy, max_linear_speed ), -1 * max_linear_speed );
+        if( abs(y_diff) < linear_tolerance ){ desired_vy = 0; }
 
-        float max_ang_speed = 0.7; // rad/s
-        setPoint_angular = map_func( move_ang, -30.0, 30.0, -1 * max_ang_speed, max_ang_speed );               // [degrees], [degrees], [degrees], [rad/s], [rad/s]
-        setPoint_angular = max( min( setPoint_angular, max_ang_speed ), -1 * max_ang_speed );
-        float max_linear_speed = 10; // cm/s
-        setPoint_linear  = map_func( move_magnitude, -20.0, 20.0, -1 * max_linear_speed, max_linear_speed );  // [cm], [cm], [cm], [cm/s], [cm/s]
-        setPoint_linear  = max( min( setPoint_linear, max_linear_speed ), -1 * max_linear_speed );
+        desired_vth = map_func( th_diff, -30.0, 30.0, -1 * max_ang_speed, max_ang_speed );      // [degrees], [degrees], [degrees], [rad/s], [rad/s]
+        desired_vth = max( min( desired_vth, max_ang_speed ), -1 * max_ang_speed );
+        if( abs(th_diff) < angular_tolerance ){ desired_vth = 0; }
 
-
-        if ( abs(move_ang) > 10 ){ setPoint_linear = 0; }
-        if ( move_magnitude < linear_tolerance && abs(th_diff) < angular_tolerance ) { setPoint_linear  = 0; setPoint_angular = 0; }
+        rotateFrame( desired_vx, desired_vy, -(th/180) * PI ); // Rotate from Global Frame to Local Frame
 
         //Inverse Kinematics
-        float desired_right_speed = ((2 * setPoint_linear) + (setPoint_angular * frameRadius)) / 2;   // [cm/s]
-        float desired_left_speed  = ((2 * setPoint_linear) - (setPoint_angular * frameRadius)) / 2;   // [cm/s]
+        float desired_back_speed  = ( (-cos(PI/2)    * desired_vx) + (-sin(PI/2)    * desired_vy) + ( frameRadius * desired_vth) );  // [cm/s]
+        float desired_right_speed = ( (-cos(7*PI/6)  * desired_vx) + (-sin(7*PI/6)  * desired_vy) + ( frameRadius * desired_vth) );  // [cm/s]
+        float desired_left_speed  = ( (-cos(11*PI/6) * desired_vx) + (-sin(11*PI/6) * desired_vy) + ( frameRadius * desired_vth) );  // [cm/s]
 
+        int backPWM  = backControl.motorControl(desired_back_speed, backVelocity);
         int leftPWM  = leftControl.motorControl(desired_left_speed, leftVelocity);
-
         int rightPWM = rightControl.motorControl(desired_right_speed, rightVelocity);
+      
 
-        printf("left_vel: %f  ", leftVelocity);
-        printf("right_vel: %f\n", rightVelocity);
-        printf("left_vel: %f  ", desired_left_speed);
-        printf("right_vel: %f\n", desired_right_speed);
-        printf("mag: %f  ", move_magnitude);
-        printf("ang: %f\n", move_ang);
+        printf("des_vel_l: %f  ", desired_left_speed);
+        printf("des_vel_r: %f  ", desired_right_speed);
+        printf("des_vel_b: %f\n", desired_back_speed);
+
         printf("leftPWM: %d   ", leftPWM);
-        printf("rightPWM: %d\n", rightPWM);
+        printf("rightPWM: %d   ", rightPWM);
+        printf("backPWM: %d\n", backPWM);
+
+        printf("enc: %d\n", current_enc_r);
+
         printf("x: %f   ", x);
         printf("y: %f   ", y);
         printf("th: %f\n", th);
-        printf("time: %f\n", delta_time);
 
-        leftMotor(leftPWM);
-        rightMotor(rightPWM);
+        if ( !stop_button.Get() ){ 
+          leftMotor(0);
+          rightMotor(0);
+          backMotor(0);
+        }else{
+          leftMotor(leftPWM);
+          rightMotor(rightPWM);
+          backMotor(backPWM);
+        }
 
         delay(100);
 
-    }while( setPoint_linear != 0 || setPoint_angular != 0 );
+    }while( desired_vx != 0 || desired_vy != 0 || desired_vth != 0 );
+
 
     leftMotor(0);
     rightMotor(0);
+    backMotor(0);
+
     delay(250);
 }
 
