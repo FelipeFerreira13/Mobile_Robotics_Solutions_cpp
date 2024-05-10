@@ -1,50 +1,5 @@
 #include "movement.h"
 
-class simpleControl{
-  private:
-    const float max_motor_speed = 60.0; // [cm/s]
-    float correction = 0;               // [PWM]
-
-  public:
-    simpleControl(){}
-
-    float motorControl(float desiredSpeed, float currentSpeed) {
-
-      float Desired_PWM = (desiredSpeed / max_motor_speed) * 255.0; // Proportional PWM regarding MAX speed of the motor [PWM]
-
-      float error = desiredSpeed - currentSpeed;  // [cm/s]
-
-      //Defines a proportional increment to the PWM
-      float incrementPWM = map_func(error, -1 * max_motor_speed, max_motor_speed, -100.0, 100.0);  // ( [m], [m], [m], [PWM], [PWM] )
-      incrementPWM = incrementPWM * delta_time;
-
-      correction  = max( min( correction + incrementPWM, 50.0 ), -50.0 );
-
-      printf("correction: %f\n", correction);
-
-      Desired_PWM = max( min( Desired_PWM + correction, 150.0 ),  -150.0 );
-
-      if (desiredSpeed == 0){ Desired_PWM = 0; }
-
-      return Desired_PWM;
-    }
-};
-
-void backMotor( float PWM ){
-    PWM = PWM / 255.0;
-    motor_back.SetMotorPWM( PWM );
-}
-
-void leftMotor( float PWM ){
-    PWM = PWM / 255.0;
-    motor_left.SetMotorPWM( PWM );
-}
-
-void rightMotor( float PWM ){
-    PWM = PWM / 255.0;
-    motor_right.SetMotorPWM( PWM );
-}
-
 void PositionDriver( float desired_x, float desired_y, float desired_th ) {
 
     bool reach_linear_tol  = false;
@@ -63,7 +18,7 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
 
     do{
         current_time = millis();
-        delta_time = float(current_time - previous_time) / 1000.0; // [s]
+        float delta_time = float(current_time - previous_time) / 1000.0; // [s]
         previous_time = current_time;
 
         current_enc_l = enc_left.GetEncoderCount();
@@ -140,9 +95,9 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         float desired_right_speed = ( (-cos(7*PI/6)  * desired_vx) + (-sin(7*PI/6)  * desired_vy) + ( frameRadius * desired_vth) );  // [cm/s]
         float desired_left_speed  = ( (-cos(11*PI/6) * desired_vx) + (-sin(11*PI/6) * desired_vy) + ( frameRadius * desired_vth) );  // [cm/s]
 
-        int backPWM  = backControl.motorControl(desired_back_speed, backVelocity);
-        int leftPWM  = leftControl.motorControl(desired_left_speed, leftVelocity);
-        int rightPWM = rightControl.motorControl(desired_right_speed, rightVelocity);
+        int backPWM  = backControl.motorControl(desired_back_speed, backVelocity, delta_time);
+        int leftPWM  = leftControl.motorControl(desired_left_speed, leftVelocity, delta_time);
+        int rightPWM = rightControl.motorControl(desired_right_speed, rightVelocity, delta_time);
       
 
         printf("des_vel_l: %f  ", desired_left_speed);
@@ -180,4 +135,3 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
 
     delay(250);
 }
-

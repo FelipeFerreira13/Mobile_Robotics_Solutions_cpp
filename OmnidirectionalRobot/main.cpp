@@ -12,6 +12,9 @@ int main(int argc, char *argv[])
 	VMXPi vmx(realtime, update_rate_hz);
 	vmx_ptr = &vmx;
 
+	start_button.Init( &vmx, BUTTON_START );
+	stop_button.Init( &vmx, BUTTON_STOP );
+
 	enc_left.Init( &vmx, ENCODER_LEFT );
 	enc_right.Init( &vmx, ENCODER_RIGHT );
 	enc_back.Init( &vmx, ENCODER_BACK );
@@ -27,7 +30,14 @@ int main(int argc, char *argv[])
 	motor_back.SetMotorPWM(0);
 	motor_elevator.SetMotorPWM(0);
 
-	PositionDriver( 100, 100, 90 );
+	while(true){
+		while( start_button.Get() ){}
+
+		PositionDriver( 100, 0, 0 );
+		PositionDriver( 100, 100, 90 );
+		PositionDriver( 0, 100, 180 );
+		PositionDriver( 0, 0, 270 );
+	}
 
 	return 0;
 

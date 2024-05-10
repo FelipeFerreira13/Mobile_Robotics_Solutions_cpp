@@ -21,22 +21,14 @@ static int previous_enc_r = 0;
 static int current_enc_b = 0;
 static int previous_enc_b = 0;
 
-//Desired Speed
-static float setPoint_linear = 0;   // [cm/s]
-static float setPoint_angular = 0;  // [rad/s]
-
 static float linear_tolerance  = 5;  //  [cm]
 static float angular_tolerance = 3;  //  [degrees]
 
 //Time
 static int current_time;
 static int previous_time;
-static float delta_time;
 
 //Functions protofunctions
-float motorControl(float desiredSpeed, float currentSpeed);
-void leftMotor(float PWM);
-void rightMotor(float PWM);
 void PositionDriver( float desired_x, float desired_y, float desired_th );
 
 #endif

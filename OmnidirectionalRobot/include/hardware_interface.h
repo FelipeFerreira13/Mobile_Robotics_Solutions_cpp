@@ -2,6 +2,8 @@
 #define HARDWARE
 
 #include "VMXPi.h"
+
+#include "functions.h"
 #include "constants.h"
 
 #include "encoder.h"
@@ -50,5 +52,20 @@ static int LIMITSWITCH_DOWN = 9;
 static int BUTTON_START = 11;
 static int BUTTON_STOP  = 10;
 
+class simpleControl{
+    private:
+        const float max_motor_speed = 60.0; // [cm/s]
+        float correction = 0;               // [PWM]
+
+    public:   
+        simpleControl();
+
+        float motorControl(float desiredSpeed, float currentSpeed, float delta_time);
+};
+
+void leftMotor(float PWM);
+void rightMotor(float PWM);
+void backMotor( float PWM );
+void elevatorMotor(float PWM);
 
 #endif

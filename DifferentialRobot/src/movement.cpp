@@ -81,7 +81,7 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         //Forward Kinematics
         float vx  = (( rightVelocity + leftVelocity ) / 2) * cos( th_radius );  // [cm/s]
         float vy  = (( rightVelocity + leftVelocity ) / 2) * sin( th_radius );  // [cm/s]
-        float vth = (( rightVelocity - leftVelocity ) / frameRadius) * 0.525;             // [rad/s]
+        float vth = (( rightVelocity - leftVelocity ) / frameRadius);           // [rad/s]
 
         //Robot Displacement
         float delta_x  = vx  * delta_time;

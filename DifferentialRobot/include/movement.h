@@ -23,7 +23,7 @@ static float setPoint_linear = 0;   // [cm/s]
 static float setPoint_angular = 0;  // [rad/s]
 
 static float linear_tolerance  = 5;  //  [cm]
-static float angular_tolerance = 3;  //  [degrees]
+static float angular_tolerance = 5;  //  [degrees]
 
 //Time
 static int current_time;

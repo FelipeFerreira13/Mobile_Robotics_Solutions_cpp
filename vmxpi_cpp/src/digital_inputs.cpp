@@ -4,8 +4,8 @@ void digitalInput::DisplayVMXError(VMXErrorCode vmxerr) {
 	const char *p_err_description = GetVMXErrorString(vmxerr);
 	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
 }
-
-digitalInput::digitalInput(VMXPi *vmx, uint8_t channel){
+digitalInput::digitalInput(){}
+void digitalInput::Init(VMXPi *vmx, uint8_t channel){
     this->vmx = vmx;
 	this->dio_channel_index = channel;
 	try {
@@ -41,7 +41,7 @@ bool digitalInput::Get() {
 		printf("Error Reading Digital Input value for Resource Index %d.\n", dio_channel_index);
 		DisplayVMXError(vmxerr);
 	} else {
-		printf("DI %d state %d \n", dio_channel_index,(state ? 1 : 0));
+		// printf("DI %d state %d \n", dio_channel_index,(state ? 1 : 0));
 	}
     
     return state;

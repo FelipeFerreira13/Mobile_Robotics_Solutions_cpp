@@ -14,7 +14,8 @@ class digitalInput{
 		VMXResourceHandle digitalio_res_handle;
 
 	public:
-		digitalInput(VMXPi *vmx, uint8_t channel);
+		digitalInput();
+		void Init(VMXPi *vmx, uint8_t channel);
 		~digitalInput();
 		
 		bool Get();

@@ -12,7 +12,7 @@ void PWM_Motor::Init( VMXPi *vmx, int INA, int INB){
 		if(vmx->IsOpen()) {
 			if( INA < 22 && INA > 11 && INB < 22 && INB > 11 ){
     
-                PWMGeneratorConfig pwmgen_cfg(200 /* Frequency in Hz */);
+                PWMGeneratorConfig pwmgen_cfg(1000 /* Frequency in Hz */);
 
                 int dio_channel_index = INA;
 
