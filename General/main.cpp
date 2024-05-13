@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 	VMXPi vmx(realtime, update_rate_hz);
 	vmx_ptr = &vmx;
 
+
 	Initialize_hardware( &vmx );	// Initialize the peripherals
 
 	OMS oms;	// Creates the OMS Object
