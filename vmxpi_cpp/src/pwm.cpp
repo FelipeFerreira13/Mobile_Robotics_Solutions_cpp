@@ -5,7 +5,9 @@ void PWM::DisplayVMXError(VMXErrorCode vmxerr) {
 	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
 }
 
-PWM::PWM( VMXPi *vmx, uint8_t channel){
+PWM::PWM( ){}
+
+void PWM::Init( VMXPi *vmx, uint8_t channel){
     this->vmx = vmx;
     try {
 		if(vmx->IsOpen()) {

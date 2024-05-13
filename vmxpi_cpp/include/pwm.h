@@ -25,7 +25,9 @@ class PWM {
 		double angle_ = 0;
        
 	public:
-		PWM( VMXPi *vmx, uint8_t channel);
+		void Init( VMXPi *vmx, uint8_t channel);
+
+		PWM();
     	~PWM();
 		
 		// set an angle between 0 and 300
