@@ -8,9 +8,9 @@
 #include "hardware_interface.h"
 
 //Robot Position
-static float x = 0;    //Robot Global Position on the X  axis  [cm]
-static float y = 0;    //Robot Global Position on the Y  axis  [cm]
-static float th = 0;   //Robot Global Position on the Th axis  [degrees]
+static float x_global = 0;    //Robot Global Position on the X  axis  [cm]
+static float y_global = 0;    //Robot Global Position on the Y  axis  [cm]
+static float th_global = 0;   //Robot Global Position on the Th axis  [degrees]
 
 static int current_enc_l = 0;
 static int previous_enc_l = 0;
@@ -26,6 +26,7 @@ static float angular_tolerance = 3;  //  [degrees]
 
 //Functions protofunctions
 void PositionDriver( float desired_x, float desired_y, float desired_th );
+void SetPosition( float x, float y, float th );
 
 #endif
 

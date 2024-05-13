@@ -1,5 +1,11 @@
 #include "movement.h"
 
+void SetPosition( float x, float y, float th ){
+  x_global = x;
+  y_global = y;
+  th_global = th;
+}
+
 void PositionDriver( float desired_x, float desired_y, float desired_th ) {
 
     bool reach_linear_tol  = false;
@@ -38,18 +44,18 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         float rightVelocity = (((2 * PI * wheelRadius * delta_enc_r) / (ticksPerRev * delta_time)));   // [cm/s]
         float backVelocity  = (((2 * PI * wheelRadius * delta_enc_b) / (ticksPerRev * delta_time)));   // [cm/s]
 
-        if ( isnan(leftVelocity) || isinf(leftVelocity) ){ leftVelocity  = 0; }
+        if ( isnan(leftVelocity)  || isinf(leftVelocity) ) { leftVelocity  = 0; }
         if ( isnan(rightVelocity) || isinf(rightVelocity) ){ rightVelocity = 0; }
-        if ( isnan(backVelocity) || isinf(backVelocity) ){ backVelocity  = 0; }
+        if ( isnan(backVelocity)  || isinf(backVelocity) ) { backVelocity  = 0; }
 
-        float th_radius = (( th / 180.0 ) * PI);  //Robot Global Position on the Th axis  [rad]
+        float th_radius = (( th_global / 180.0 ) * PI);  //Robot Global Position on the Th axis  [rad]
         
         //Forward Kinematics
         float vx   = ( (      0     * backVelocity ) + ( (1.0/sqrt(3.0)) * rightVelocity) + ( (-1.0/sqrt(3.0)) * leftVelocity) );                // [cm/s]
         float vy   = ( ( (-2.0/3.0) * backVelocity ) + (    (1.0/3.0)    * rightVelocity) + (     (1.0/3.0)    * leftVelocity) );                // [cm/s]
         float vth  = ( ( ( 1.0/3.0) * backVelocity ) + (    (1.0/3.0)    * rightVelocity) + (     (1.0/3.0)    * leftVelocity) ) / frameRadius ; // [rad/s]
         
-        rotateFrame( vx, vy, (th/180) * PI ); // Rotate from Local Frame to Global Frame
+        rotateFrame( vx, vy, (th_global/180) * PI ); // Rotate from Local Frame to Global Frame
 
         //Robot Displacement
         float delta_x  = vx  * delta_time;
@@ -57,14 +63,14 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         float delta_th = vth * delta_time;
 
         //Robot Position update
-        x  = x  + delta_x;
-        y  = y  + delta_y;
-        th = th + ((delta_th / PI) * 180);  //  [degrees/s]
+        x_global  = x_global  + delta_x;
+        y_global  = y_global  + delta_y;
+        th_global = th_global + ((delta_th / PI) * 180);  //  [degrees/s]
 
-        th = Remainder(th, 360);
+        th_global = Remainder(th_global, 360);
 
         float desired_position[3] = { desired_x, desired_y, desired_th };  // [cm], [cm], [degrees]
-        float current_position[3] = { x , y, th };  // [cm], [cm], [degrees]
+        float current_position[3] = { x_global , y_global, th_global };  // [cm], [cm], [degrees]
 
         float x_diff  = desired_position[0] - current_position[0];
         float y_diff  = desired_position[1] - current_position[1];
@@ -88,7 +94,7 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         desired_vth = max( min( desired_vth, max_ang_speed ), -1 * max_ang_speed );
         if( abs(th_diff) < angular_tolerance ){ desired_vth = 0; }
 
-        rotateFrame( desired_vx, desired_vy, -(th/180) * PI ); // Rotate from Global Frame to Local Frame
+        rotateFrame( desired_vx, desired_vy, -(th_global/180) * PI ); // Rotate from Global Frame to Local Frame
 
         //Inverse Kinematics
         float desired_back_speed  = ( (-cos(PI/2)    * desired_vx) + (-sin(PI/2)    * desired_vy) + ( frameRadius * desired_vth) );  // [cm/s]
@@ -110,9 +116,9 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
 
         printf("enc: %d\n", current_enc_r);
 
-        printf("x: %f   ", x);
-        printf("y: %f   ", y);
-        printf("th: %f\n", th);
+        printf("x: %f   ", x_global);
+        printf("y: %f   ", y_global);
+        printf("th: %f\n", th_global);
 
         if ( !stop_button.Get() ){ 
           leftMotor(0);
