@@ -5,8 +5,8 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
     bool reach_linear_tol  = false;
     bool reach_angular_tol = false;
    
-    current_time = millis();
-    previous_time - millis();
+    int current_time = millis();
+    int previous_time = millis();
 
     simpleControl leftControl;
     simpleControl rightControl;
@@ -38,9 +38,9 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         float rightVelocity = (((2 * PI * wheelRadius * delta_enc_r) / (ticksPerRev * delta_time)));   // [cm/s]
         float backVelocity  = (((2 * PI * wheelRadius * delta_enc_b) / (ticksPerRev * delta_time)));   // [cm/s]
 
-        if ( isnan(leftVelocity)  ){ leftVelocity  = 0; }
-        if ( isnan(rightVelocity) ){ rightVelocity = 0; }
-        if ( isnan(backVelocity)  ){ backVelocity  = 0; }
+        if ( isnan(leftVelocity) || isinf(leftVelocity) ){ leftVelocity  = 0; }
+        if ( isnan(rightVelocity) || isinf(rightVelocity) ){ rightVelocity = 0; }
+        if ( isnan(backVelocity) || isinf(backVelocity) ){ backVelocity  = 0; }
 
         float th_radius = (( th / 180.0 ) * PI);  //Robot Global Position on the Th axis  [rad]
         

@@ -17,6 +17,9 @@ inline VMXPi *vmx_ptr;
 inline digitalInput start_button;
 inline digitalInput stop_button;
 
+inline digitalInput limitswitch_low;
+inline digitalInput limitswitch_high;
+
 inline EncoderMotor enc_left;
 inline EncoderMotor enc_right;
 inline EncoderMotor enc_back;
@@ -46,20 +49,20 @@ static int SHARP_FRONT_RIGHT = 1;
 static int SHARP_LEFT        = 2;
 static int SHARP_RIGHT       = 3;
 
-static int LIMITSWITCH_UP   = 8;
-static int LIMITSWITCH_DOWN = 9;
+static int LIMITSWITCH_HIGH  = 8;
+static int LIMITSWITCH_LOW   = 9;
 
 static int BUTTON_START = 11;
 static int BUTTON_STOP  = 10;
 
 class simpleControl{
     private:
-        const float max_motor_speed = 60.0; // [cm/s]
         float correction = 0;               // [PWM]
 
     public:   
-        simpleControl();
+        float max_motor_speed = 60.0; // [cm/s]
 
+        simpleControl();
         float motorControl(float desiredSpeed, float currentSpeed, float delta_time);
 };
 

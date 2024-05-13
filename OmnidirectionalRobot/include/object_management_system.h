@@ -7,22 +7,25 @@
 #include "constants.h"
 #include "hardware_interface.h"
 
-static const float pinionRadius = 1.25; //Pinion's radius [cm]
 
-//Robot Position
-static float height = 0;    //OMS height [cm]
+class OMS{
+    private:
+        float pinionRadius = 1.25; //Pinion's radius [cm]
 
-static int current_enc = 0;
-static int previous_enc = 0;
+        //Robot Position
+        float height = 1000;    //OMS height [cm]
 
-static float tolerance  = 1.5;  //  [cm]
+        float low_height = 9;
+        float high_height = 36;
 
-//Time
-static int current_time;
-static int previous_time;
+        float tolerance  = 1.5;  //  [cm]
 
-//Functions protofunctions
-void OMSDriver( float desired_x, float desired_y, float desired_th );
+    public:
+        OMS();
+        void OMSDriver( float height );
+        void setHeight( float set_height ); //Set the Elevation height
+        void reset( int direction ); //Send the elevator to one o f the Limit Switches
+};
 
 #endif
 

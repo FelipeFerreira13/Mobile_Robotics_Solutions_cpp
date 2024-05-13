@@ -24,10 +24,6 @@ static int previous_enc_b = 0;
 static float linear_tolerance  = 5;  //  [cm]
 static float angular_tolerance = 3;  //  [degrees]
 
-//Time
-static int current_time;
-static int previous_time;
-
 //Functions protofunctions
 void PositionDriver( float desired_x, float desired_y, float desired_th );
 
