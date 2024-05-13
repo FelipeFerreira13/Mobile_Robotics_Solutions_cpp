@@ -25,6 +25,8 @@ class OMS{
         void OMSDriver( float height );
         void setHeight( float set_height ); //Set the Elevation height
         void reset( int direction ); //Send the elevator to one o f the Limit Switches
+
+        void setGripper( int set );
 };
 
 #endif

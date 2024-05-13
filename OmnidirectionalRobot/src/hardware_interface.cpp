@@ -9,7 +9,7 @@ float simpleControl::motorControl(float desiredSpeed, float currentSpeed, float 
     float error = desiredSpeed - currentSpeed;  // [cm/s]
 
     //Defines a proportional increment to the PWM
-    float incrementPWM = map_func(error, -1 * max_motor_speed, max_motor_speed, -100.0, 100.0);  // ( [m], [m], [m], [PWM], [PWM] )
+    float incrementPWM = map_func(error, -1 * max_motor_speed, max_motor_speed, -100.0, 100.0);  // ( [cm], [cm], [cm], [PWM], [PWM] )
     incrementPWM = incrementPWM * delta_time;
 
     if( error == 0 ){ correction = 0;}

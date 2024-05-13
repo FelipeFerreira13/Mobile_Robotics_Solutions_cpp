@@ -30,6 +30,10 @@ inline PWM_Motor motor_right;
 inline PWM_Motor motor_back;
 inline PWM_Motor motor_elevator;
 
+inline PWM gripper;
+
+enum GRIPPER { GRIPPER_OPEN = 150, GRIPPER_CLOSE = 50 };
+
 static int ENCODER_BACK     = 0;
 static int ENCODER_RIGHT    = 1;
 static int ENCODER_LEFT     = 2;
@@ -54,6 +58,8 @@ static int LIMITSWITCH_LOW   = 9;
 
 static int BUTTON_START = 11;
 static int BUTTON_STOP  = 10;
+
+static int SERVO_GRIPPER = 20;
 
 class simpleControl{
     private:

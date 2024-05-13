@@ -100,3 +100,7 @@ void OMS::reset( int direction ){
     }else{}
     elevatorMotor( 0 );
 }
+
+void OMS::setGripper( int set ){
+    gripper.SetAngle( set );
+}
