@@ -5,6 +5,7 @@ void EncoderMotor::DisplayVMXError(VMXErrorCode vmxerr) {
 	const char *p_err_description = GetVMXErrorString(vmxerr);
 	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
 }
+
 EncoderMotor::EncoderMotor(){}
 
 void EncoderMotor::Init(VMXPi *vmx, uint8_t encoder){

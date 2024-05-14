@@ -17,8 +17,8 @@ class Analog {
     
 	public:
 		// specify channel input
-		Analog(VMXPi *vmx, uint8_t channel);
-		
+		Analog();
+		void Init(VMXPi *vmx, uint8_t channel);
     	~Analog();
 		double GetIRDistance(); // get distance in cm
 		double GetRawVoltage(); // get raw voltage

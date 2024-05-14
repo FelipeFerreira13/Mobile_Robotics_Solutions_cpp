@@ -5,7 +5,9 @@ void Analog::DisplayVMXError(VMXErrorCode vmxerr) {
 	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
 }
 
-Analog::Analog(VMXPi *vmx, uint8_t channel){
+Analog::Analog(){}
+
+void Analog::Init(VMXPi *vmx, uint8_t channel){
     this->vmx = vmx;
 	this->analog_in_chan_index = channel + 22;
 	try {
@@ -52,7 +54,7 @@ double Analog::GetIRDistance(){
 double Analog::GetRawVoltage(){
 	float an_in_voltage;
 	if(vmx->io.Accumulator_GetAverageVoltage(accumulator_res_handle, an_in_voltage, &vmxerr)){
-		printf("%0.3fV\t", an_in_voltage);
+		// printf("%0.3fV\t", an_in_voltage);
 	} else {
 		printf("Error getting Average Voltage of analog accumulator %d\n");
 		DisplayVMXError(vmxerr);
