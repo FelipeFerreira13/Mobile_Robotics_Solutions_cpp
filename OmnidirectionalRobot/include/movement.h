@@ -25,8 +25,9 @@ static float linear_tolerance  = 5;  //  [cm]
 static float angular_tolerance = 3;  //  [degrees]
 
 //Functions protofunctions
-void PositionDriver( float desired_x, float desired_y, float desired_th );
-void SetPosition( float x, float y, float th );
+
+void PositionDriver( float desired_x, float desired_y, float desired_th );  // Defines the position to go to
+void SetPosition( float x, float y, float th ); // Set the current robot position
 
 #endif
 

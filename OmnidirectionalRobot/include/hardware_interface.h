@@ -11,26 +11,9 @@
 #include "pwm_motor.h"
 #include "digital_inputs.h"
 #include "digital_outputs.h"
+#include "analog_inputs.h"
 
 inline VMXPi *vmx_ptr;
-
-inline digitalInput start_button;
-inline digitalInput stop_button;
-
-inline digitalInput limitswitch_low;
-inline digitalInput limitswitch_high;
-
-inline EncoderMotor enc_left;
-inline EncoderMotor enc_right;
-inline EncoderMotor enc_back;
-inline EncoderMotor enc_elevator;
-
-inline PWM_Motor motor_left;
-inline PWM_Motor motor_right;
-inline PWM_Motor motor_back;
-inline PWM_Motor motor_elevator;
-
-inline PWM gripper;
 
 enum GRIPPER { GRIPPER_OPEN = 150, GRIPPER_CLOSE = 50 };
 
@@ -72,9 +55,39 @@ class simpleControl{
         float motorControl(float desiredSpeed, float currentSpeed, float delta_time);
 };
 
+void Initialize_hardware( VMXPi *vmx );
+
 void leftMotor(float PWM);
 void rightMotor(float PWM);
 void backMotor( float PWM );
 void elevatorMotor(float PWM);
+
+void delay( uint32_t ms );
+void delayMicroseconds( uint32_t us );
+uint32_t millis( );
+
+inline digitalInput start_button;
+inline digitalInput stop_button;
+
+inline digitalInput limitswitch_low;
+inline digitalInput limitswitch_high;
+
+inline EncoderMotor enc_left;
+inline EncoderMotor enc_right;
+inline EncoderMotor enc_back;
+inline EncoderMotor enc_elevator;
+
+inline PWM_Motor motor_left;
+inline PWM_Motor motor_right;
+inline PWM_Motor motor_back;
+inline PWM_Motor motor_elevator;
+
+inline PWM gripper;
+
+inline Analog sensor_front_left;
+inline Analog sensor_front_right;
+inline Analog sensor_left;
+inline Analog sensor_right;
+
 
 #endif
