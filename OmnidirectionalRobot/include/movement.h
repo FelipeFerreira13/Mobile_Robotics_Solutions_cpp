@@ -5,6 +5,7 @@
 
 #include "functions.h"
 #include "constants.h"
+#include "motor_control.h"
 #include "hardware_interface.h"
 
 //Robot Position
