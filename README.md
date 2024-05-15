@@ -14,6 +14,8 @@ This Mobile Robotics project aimed at providing straightforward tools for contro
 
     make run
 
-## OMNIDIRECTIONAL MODEL
+## OMNIDIRECTIONAL ROBOT
+
+## DIFFERENTIAL ROBOT
 
 ## OBJECT MANAGEMENT SYSTEM
