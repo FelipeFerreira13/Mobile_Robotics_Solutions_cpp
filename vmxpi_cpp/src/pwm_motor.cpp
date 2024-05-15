@@ -1,13 +1,9 @@
 #include "pwm_motor.h"
 
-void PWM_Motor::DisplayVMXError(VMXErrorCode vmxerr) {
-	const char *p_err_description = GetVMXErrorString(vmxerr);
-	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
-}
 PWM_Motor::PWM_Motor( ){}
 
-void PWM_Motor::Init( VMXPi *vmx, int INA, int INB){
-    this->vmx = vmx;
+void PWM_Motor::Init(int INA, int INB){
+    this->vmx = vmx_ptr;
     try {
 		if(vmx->IsOpen()) {
 			if( INA < 22 && INA > 11 && INB < 22 && INB > 11 ){

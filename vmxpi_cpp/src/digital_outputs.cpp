@@ -1,13 +1,9 @@
 #include "digital_outputs.h"
 
+digitalOutput::digitalOutput(){}
 
-void digitalOutput::DisplayVMXError(VMXErrorCode vmxerr) {
-	const char *p_err_description = GetVMXErrorString(vmxerr);
-	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
-}
-
-digitalOutput::digitalOutput(VMXPi *vmx, uint8_t channel){
-    this->vmx = vmx;
+void digitalOutput::Init( int channel ){
+    this->vmx = vmx_ptr;
 	this->channel_index = channel;
 	try {
 		if(vmx->IsOpen()) {

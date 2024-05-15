@@ -1,14 +1,9 @@
 #include "analog_inputs.h"
 
-void Analog::DisplayVMXError(VMXErrorCode vmxerr) {
-	const char *p_err_description = GetVMXErrorString(vmxerr);
-	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
-}
-
 Analog::Analog(){}
 
-void Analog::Init(VMXPi *vmx, uint8_t channel){
-    this->vmx = vmx;
+void Analog::Init( int channel){
+    this->vmx = vmx_ptr;
 	this->analog_in_chan_index = channel + 22;
 	try {
 		if(vmx->IsOpen()) {

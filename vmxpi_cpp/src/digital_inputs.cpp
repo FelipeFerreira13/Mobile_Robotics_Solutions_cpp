@@ -1,12 +1,9 @@
 #include "digital_inputs.h"
 
-void digitalInput::DisplayVMXError(VMXErrorCode vmxerr) {
-	const char *p_err_description = GetVMXErrorString(vmxerr);
-	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
-}
 digitalInput::digitalInput(){}
-void digitalInput::Init(VMXPi *vmx, uint8_t channel){
-    this->vmx = vmx;
+
+void digitalInput::Init( int channel){
+    this->vmx = vmx_ptr;
 	this->dio_channel_index = channel;
 	try {
 		if(vmx->IsOpen()) {

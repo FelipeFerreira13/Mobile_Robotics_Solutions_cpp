@@ -5,20 +5,25 @@
 #include <string.h> 
 #include <inttypes.h>
 
-class digitalInput{
-	private:
+#include "hardware_interface_vmxpi.h"
+
+class digitalInput_hardware{
+	public:
 		VMXIO *io;
         VMXErrorCode vmxerr;
 		VMXPi *vmx;
-		uint8_t dio_channel_index;
 		VMXResourceHandle digitalio_res_handle;
+};
+
+class digitalInput : digitalInput_hardware{
+	private:
+		int dio_channel_index;
 
 	public:
 		digitalInput();
-		void Init(VMXPi *vmx, uint8_t channel);
+		void Init( int channel);
 		~digitalInput();
 		
-		bool Get();
-        void DisplayVMXError(VMXErrorCode vmxerr);
-	
+		bool Get();	
 };
+

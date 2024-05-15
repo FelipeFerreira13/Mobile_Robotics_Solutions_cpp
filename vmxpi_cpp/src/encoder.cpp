@@ -1,15 +1,9 @@
 #include "encoder.h"
 
-
-void EncoderMotor::DisplayVMXError(VMXErrorCode vmxerr) {
-	const char *p_err_description = GetVMXErrorString(vmxerr);
-	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
-}
-
 EncoderMotor::EncoderMotor(){}
 
-void EncoderMotor::Init(VMXPi *vmx, uint8_t encoder){
-    this->vmx = vmx;
+void EncoderMotor::Init( int encoder ){
+    this->vmx = vmx_ptr;
 	this->encoder_index = encoder;
 	try {
 		if(vmx->IsOpen()) {

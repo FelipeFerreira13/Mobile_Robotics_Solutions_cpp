@@ -1,14 +1,9 @@
 #include "pwm.h"
 
-void PWM::DisplayVMXError(VMXErrorCode vmxerr) {
-	const char *p_err_description = GetVMXErrorString(vmxerr);
-	printf("VMXError %d:  %s\n", vmxerr, p_err_description);
-}
-
 PWM::PWM( ){}
 
-void PWM::Init( VMXPi *vmx, uint8_t channel){
-    this->vmx = vmx;
+void PWM::Init( int channel){
+    this->vmx = vmx_ptr;
     try {
 		if(vmx->IsOpen()) {
 			if( channel < 22 && channel > 11 ){
@@ -68,7 +63,7 @@ double PWM::GetMinAngle(){ return minangle; }
 double PWM::GetMaxAngle(){ return maxangle; } 
 
 
-uint16_t PWM::mapAngle (double angle)
+double PWM::mapAngle (double angle)
 {
 
 	/**
@@ -88,5 +83,5 @@ uint16_t PWM::mapAngle (double angle)
     double val = ( (((angle - minangle) / (maxangle - minangle)) * (125.0 - 25.0))  + 25.0 );
 
 
-    return (uint16_t) val;
+    return val;
 }

@@ -6,22 +6,26 @@
 #include <unistd.h>
 #include <sys/syscall.h>
 
-class Analog {
-	private:
+#include "hardware_interface_vmxpi.h"
+
+class Analog_hardware{
+	public:
 		VMXIO *io; // IO class of VMXPi
 		VMXResourceHandle accumulator_res_handle;
-		uint8_t analog_in_chan_index;
         VMXErrorCode vmxerr;
 		VMXPi *vmx;
+};
 
+class Analog : Analog_hardware {
+	private:
+		int16_t analog_in_chan_index;
     
 	public:
 		// specify channel input
 		Analog();
-		void Init(VMXPi *vmx, uint8_t channel);
+		void Init( int channel);
     	~Analog();
 		double GetIRDistance(); // get distance in cm
 		double GetRawVoltage(); // get raw voltage
-
-        void DisplayVMXError(VMXErrorCode vmxerr);	
 };
+
