@@ -1,10 +1,15 @@
 CXX=g++ -std=c++17
-CXXFLAGS=-I/usr/local/include/vmxpi -L/usr/local/lib/vmxpi -lvmxpi_hal_cpp -lrt -lpthread -I./vmxpi_cpp/include -I./OmnidirectionalRobot/include -I./general/include
+CXXFLAGS=-I/usr/local/include/vmxpi -L/usr/local/lib/vmxpi -lvmxpi_hal_cpp -lrt -lpthread 
+
+INC_DIR = -I./vmxpi_cpp/include -I./OmnidirectionalRobot/include -I./Object_Management_System/include -I./general/include
+CXXFLAGS+=$(INC_DIR)
 
 SRC_DIR_hardware = vmxpi_cpp/src
 SOURCES=$(wildcard $(SRC_DIR_hardware)/*.cpp)
 SRC_DIR_model = OmnidirectionalRobot/src
 SOURCES+=$(wildcard $(SRC_DIR_model)/*.cpp)
+SRC_DIR_oms = Object_Management_System/src
+SOURCES+=$(wildcard $(SRC_DIR_oms)/*.cpp)
 SRC_DIR_general = general/src
 SOURCES+=$(wildcard $(SRC_DIR_general)/*.cpp)
 
