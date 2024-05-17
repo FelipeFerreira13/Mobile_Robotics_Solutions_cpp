@@ -82,15 +82,15 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         float max_linear_speed = 10.0; // cm/s
         float max_ang_speed = 0.5; // rad/s
 
-        desired_vx = map_func( x_diff, -30.0, 30.0, -1 * max_linear_speed, max_linear_speed );  // [cm], [cm], [cm], [cm/s], [cm/s]
+        desired_vx = map_func( x_diff, -15.0, 15.0, -1 * max_linear_speed, max_linear_speed );  // [cm], [cm], [cm], [cm/s], [cm/s]
         desired_vx = max( min( desired_vx, max_linear_speed ), -1 * max_linear_speed );
         if( abs(x_diff) < linear_tolerance ){ desired_vx = 0; }
 
-        desired_vy = map_func( y_diff, -30.0, 30.0, -1 * max_linear_speed, max_linear_speed );  // [cm], [cm], [cm], [cm/s], [cm/s]
+        desired_vy = map_func( y_diff, -15.0, 15.0, -1 * max_linear_speed, max_linear_speed );  // [cm], [cm], [cm], [cm/s], [cm/s]
         desired_vy = max( min( desired_vy, max_linear_speed ), -1 * max_linear_speed );
         if( abs(y_diff) < linear_tolerance ){ desired_vy = 0; }
 
-        desired_vth = map_func( th_diff, -30.0, 30.0, -1 * max_ang_speed, max_ang_speed );      // [degrees], [degrees], [degrees], [rad/s], [rad/s]
+        desired_vth = map_func( th_diff, -15.0, 15.0, -1 * max_ang_speed, max_ang_speed );      // [degrees], [degrees], [degrees], [rad/s], [rad/s]
         desired_vth = max( min( desired_vth, max_ang_speed ), -1 * max_ang_speed );
         if( abs(th_diff) < angular_tolerance ){ desired_vth = 0; }
 
