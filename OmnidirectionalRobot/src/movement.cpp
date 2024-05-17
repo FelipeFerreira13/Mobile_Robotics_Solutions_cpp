@@ -40,9 +40,9 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         previous_enc_b = current_enc_b;
 
         //Wheels Velocity
-        float leftVelocity  = (((2 * PI * wheelRadius * delta_enc_l) / (ticksPerRev * delta_time)));   // [cm/s]
-        float rightVelocity = (((2 * PI * wheelRadius * delta_enc_r) / (ticksPerRev * delta_time)));   // [cm/s]
-        float backVelocity  = (((2 * PI * wheelRadius * delta_enc_b) / (ticksPerRev * delta_time)));   // [cm/s]
+        float leftVelocity  = -1 * (((2 * PI * wheelRadius * delta_enc_l) / (ticksPerRev * delta_time)));   // [cm/s]
+        float rightVelocity = -1 * (((2 * PI * wheelRadius * delta_enc_r) / (ticksPerRev * delta_time)));   // [cm/s]
+        float backVelocity  = -1 * (((2 * PI * wheelRadius * delta_enc_b) / (ticksPerRev * delta_time)));   // [cm/s]
 
         if ( isnan(leftVelocity)  || isinf(leftVelocity) ) { leftVelocity  = 0; }
         if ( isnan(rightVelocity) || isinf(rightVelocity) ){ rightVelocity = 0; }
