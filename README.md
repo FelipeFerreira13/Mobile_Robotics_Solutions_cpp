@@ -15,6 +15,13 @@ This Mobile Robotics project aimed at providing straightforward tools for contro
     make run
 
 ## OMNIDIRECTIONAL ROBOT
+Provide a simple solution for controlling the movement of an omnidirectional robot.
+
+
+| **Function**   | **return type** | **Description**                            |
+|----------------|-----------------|--------------------------------------------|
+| `SetPosition`    | void            | Redefine x, y and th value                 |
+| PositionDriver | void            | Drives the robot to reach the desired goal |
 
 ## DIFFERENTIAL ROBOT
 
