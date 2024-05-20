@@ -18,26 +18,26 @@ This Mobile Robotics project aimed at providing straightforward tools for contro
 Provide a solution for controlling the movement of an omnidirectional robot.
 
 
-| **Function**   | **return type** | **Description**                            |
+| **Function**   | **Parameters** | **Description**                            |
 |----------------|-----------------|--------------------------------------------|
-| `SetPosition`    | void            | Redefine the value of x, y and th          |
-| `PositionDriver` | void            | Drives the robot to reach the desired goal |
+| `SetPosition`    | float x, float y, float th | Redefine the value of x, y and th          |
+| `PositionDriver` | float desired_x, float desired_y, float desired_th | Drives the robot to reach the desired goal |
 
 ## DIFFERENTIAL ROBOT
 Provide a solution for controlling the movement of an differential robot.
 
 
-| **Function**   | **return type** | **Description**                            |
+| **Function**   | **Parameters** | **Description**                            |
 |----------------|-----------------|--------------------------------------------|
-| `SetPosition`    | void            | Redefine the value of x, y and th          |
-| `PositionDriver` | void            | Drives the robot to reach the desired goal |
+| `SetPosition`    | float x, float y, float th | Redefine the value of x, y and th          |
+| `PositionDriver` | float desired_x, float desired_y, float desired_th | Drives the robot to reach the desired goal |
 
 ## OBJECT MANAGEMENT SYSTEM
 Provide a solution for controlling an oms with one dc motor for elevation, one servo motor for gripper and two limit switches.
 
-| **Function**     | **return type** | **Description**                            |
+| **Function**     | **Parameters** | **Description**                            |
 |------------------|-----------------|--------------------------------------------|
-| `setHeight`      | void            | Redefine the value of Height          |
-| `setGripper`     | void            | Set the gripper angle          |
-| `reset`          | void            | Send the oms either up (direction = 1) or down (direction=-1) to reset the oms elevation |
-| `PositionDriver` | void            | Drives the oms to reach the desired height |
+| `setHeight`      | float set_height | Redefine the value of Height          |
+| `setGripper`     | int set            | Set the gripper angle (GRIPPER_CLOSE, GRIPPER_OPEN, etc) |
+| `reset`          | int direction      | Send the oms either up (direction = 1) or down (direction=-1) to reset the oms elevation |
+| `OMSDriver` | float desired_height | Drives the oms to reach the desired height |
