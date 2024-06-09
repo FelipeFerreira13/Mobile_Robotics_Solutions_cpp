@@ -4,7 +4,7 @@ This Mobile Robotics project aimed at providing straightforward tools for contro
 ## Install
   1. Clone the package from github :
 
-    git clone https://github.com/FelipeFerreira13/Mobile_Robot_VMXpi_HAL.git
+    git clone https://github.com/FelipeFerreira13/Mobile_Robotics_Solutions_cpp.git
 
   2. Build the package :
 
