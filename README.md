@@ -45,7 +45,7 @@ Provide a solution for controlling an oms with one dc motor for elevation, one s
 | `OMSDriver` | float *desired_height* | Drives the oms to reach the desired height |
 
 ## HARDWARE
-This project were created in a way that you can use any hardware you want, making it easy to swap from one microcontroller to another.
+This project were created in a way that you can use any hardware you want, making it easy to swap from one microcontroller to another. The Hardware used as reference is called VMX pi with a Raspberry pi, but the main codes can be also used for other technologies.
 
 ### Class Analog
 | **Method**     | **Parameters** | **Description**                            |
@@ -58,7 +58,7 @@ This project were created in a way that you can use any hardware you want, makin
 | **Method**     | **Parameters** | **Description**                            |
 |------------------|-|-------------------------------------------|
 | `Init`     | int *channel* | Initialize the peripheral |
-| `Get`     |  Return the measured state of the pin    |
+| `Get`     |      |Return the measured state of the pin|
 
 ### Class digitalOutput
 | **Method**     | **Parameters** | **Description**                            |
