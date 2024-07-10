@@ -6,11 +6,15 @@ This Mobile Robotics project aimed at providing straightforward tools for contro
 
     git clone https://github.com/FelipeFerreira13/Mobile_Robotics_Solutions_cpp.git
 
-  2. Build the package :
+  2. Clean the package :
+
+    make clean
+
+  3. Build the package :
 
     make
      
-  3. Run the project :
+  4. Run the project :
 
     make run
 
