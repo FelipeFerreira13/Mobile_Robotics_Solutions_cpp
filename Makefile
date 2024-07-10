@@ -29,7 +29,6 @@ CXXFLAGS += -latomic
 endif
 
 main: $(OBJS)
-# $(CXX) $(MAIN) $(SOURCES) -o $(MAIN:.cpp=) $(CXXFLAGS)
 	$(CXX) $(OBJS) -o $(MAIN:.cpp=) $(CXXFLAGS)
 
 CLEAN = $(SOURCES)
