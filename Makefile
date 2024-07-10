@@ -38,6 +38,9 @@ clean: $(patsubst %.cpp, %.clean, $(CLEAN))
 %.clean:
 	rm -f $(@:.clean=)
 
+clean_all:
+	rm -f $(OBJS)
+
 run:
 	sudo ./$(MAIN:.cpp=)
 
