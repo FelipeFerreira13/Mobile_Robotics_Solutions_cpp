@@ -15,7 +15,7 @@ void OMS::OMSDriver( float desired_height ) {
 
     float desired_speed = 0;
 
-    if ( desired_height < high_height && desired_height > low_height ){
+    if ( desired_height <= high_height && desired_height >= low_height ){
         do{
 
             if( !limitswitch_low.Get()  ){ height = low_height; }
