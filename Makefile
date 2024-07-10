@@ -1,7 +1,7 @@
 CXX=g++ -std=c++17
-CXXFLAGS=-I/usr/local/include/vmxpi -L/usr/local/lib/vmxpi -lvmxpi_hal_cpp -lrt -lpthread 
+CXXFLAGS=-I/usr/local/include/vmxpi -std=c++17 -L/usr/local/lib/vmxpi -lvmxpi_hal_cpp -lrt -lpthread 
 
-INC_DIR = -I./vmxpi_cpp/include -I./OmnidirectionalRobot/include -I./Object_Management_System/include -I./general/include
+INC_DIR = -I./vmxpi_cpp/include -I./OmnidirectionalRobot/include -I./Object_Management_System/include -I./general/include #-lcobra
 CXXFLAGS+=$(INC_DIR)
 
 SRC_DIR_hardware = vmxpi_cpp/src
@@ -18,6 +18,9 @@ MAIN=$(wildcard *.cpp)
 DEPS=$(SOURCES:.cpp=.d) 
 BINS=$(SOURCES:.cpp=)
 
+OBJS=$(SOURCES:.cpp=.o)
+OBJS+=$(MAIN:.cpp=.o)
+
 # If using GCC version higher than 6, additionally link to libatomic.so
 GCCVERSION:=$(shell gcc -dumpversion | cut -f1 -d.)
 GCCVERSIONGE7:=$(shell expr $(GCCVERSION) \>= 7)
@@ -25,9 +28,9 @@ ifeq "$(GCCVERSIONGE7)" "1"
 CXXFLAGS += -latomic
 endif
 
-main:
-	$(CXX) $(MAIN) $(SOURCES) -o $(MAIN:.cpp=) $(CXXFLAGS)
-
+main: $(OBJS)
+# $(CXX) $(MAIN) $(SOURCES) -o $(MAIN:.cpp=) $(CXXFLAGS)
+	$(CXX) $(OBJS) -o $(MAIN:.cpp=) $(CXXFLAGS)
 
 CLEAN = $(SOURCES)
 CLEAN += $(MAIN)
