@@ -16,10 +16,10 @@ class OMS{
         //Robot Position
         float height = 1000;    //OMS height [cm]
 
-        float low_height = 9;
-        float high_height = 36;
+        float low_height = 10.5;
+        float high_height = 44;
 
-        float tolerance  = 1.5;  //  [cm]
+        float tolerance  = 0.5;  //  [cm]
 
     public:
         OMS();
