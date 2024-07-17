@@ -6,6 +6,10 @@ void SetPosition( float x, float y, float th ){
   th_global = th;
 }
 
+float get_x() { return x_global;  }
+float get_y() { return y_global;  }
+float get_th(){ return th_global; }
+
 void PositionDriver( float desired_x, float desired_y, float desired_th ) {
 
     bool reach_linear_tol  = false;
