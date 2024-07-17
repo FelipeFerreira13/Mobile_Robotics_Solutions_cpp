@@ -29,6 +29,9 @@ static float angular_tolerance = 3;  //  [degrees]
 
 void PositionDriver( float desired_x, float desired_y, float desired_th );  // Defines the position to go to
 void SetPosition( float x, float y, float th ); // Set the current robot position
+float get_x();
+float get_y();
+float get_th();
 
 #endif
 
