@@ -22,8 +22,8 @@ static int previous_enc_r = 0;
 static int current_enc_b = 0;
 static int previous_enc_b = 0;
 
-static float linear_tolerance  = 5;  //  [cm]
-static float angular_tolerance = 3;  //  [degrees]
+static float linear_tolerance  = 2.5;  //  [cm]
+static float angular_tolerance = 1;  //  [degrees]
 
 //Functions protofunctions
 
