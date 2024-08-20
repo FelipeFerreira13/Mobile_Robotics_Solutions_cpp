@@ -35,6 +35,14 @@ int main(int argc, char *argv[])
 
 	}	// Wait until the Start button is pressed
 
+	cmd_drive( 30, 0, 0 );
+
+	delay( 3000 );
+
+	cmd_drive( 0, 0, 0 );
+
+	delay( 1000 );
+
 	SetPosition( 0.0, 0.0, 0.0 );
 	PositionDriver( 30.0, 0.0, 0.0 );
 

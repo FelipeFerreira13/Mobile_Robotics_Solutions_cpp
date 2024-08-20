@@ -18,10 +18,6 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
     int current_time = millis();
     int previous_time = millis();
 
-    simpleControl leftControl;
-    simpleControl rightControl;
-    simpleControl backControl;
-
     float desired_vx;
     float desired_vy;
     float desired_vth;
@@ -111,17 +107,6 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         int leftPWM  = leftControl.motorControl(desired_left_speed, leftVelocity, delta_time);
         int rightPWM = rightControl.motorControl(desired_right_speed, rightVelocity, delta_time);
       
-
-        printf("des_vel_l: %f  ", desired_left_speed);
-        printf("des_vel_r: %f  ", desired_right_speed);
-        printf("des_vel_b: %f\n", desired_back_speed);
-
-        printf("leftPWM: %d   ", leftPWM);
-        printf("rightPWM: %d   ", rightPWM);
-        printf("backPWM: %d\n", backPWM);
-
-        printf("enc: %d\n", current_enc_r);
-
         printf("x: %f   ", x_global);
         printf("y: %f   ", y_global);
         printf("th: %f\n", th_global);
@@ -146,4 +131,21 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
     backMotor(0);
 
     delay(250);
+}
+
+void cmd_drive( float vx, float vy, float vth ){
+
+  //Inverse Kinematics
+  float desired_back_speed  = ( (-cos(PI/2)    * vx) + (-sin(PI/2)    * vy) + ( frameRadius * vth) );  // [cm/s]
+  float desired_right_speed = ( (-cos(7*PI/6)  * vx) + (-sin(7*PI/6)  * vy) + ( frameRadius * vth) );  // [cm/s]
+  float desired_left_speed  = ( (-cos(11*PI/6) * vx) + (-sin(11*PI/6) * vy) + ( frameRadius * vth) );  // [cm/s]
+
+  int backPWM  = (desired_back_speed  / backControl.max_motor_speed ) * 255.0;
+  int leftPWM  = (desired_left_speed  / leftControl.max_motor_speed ) * 255.0;
+  int rightPWM = (desired_right_speed / rightControl.max_motor_speed) * 255.0;
+
+  leftMotor(leftPWM);
+  rightMotor(rightPWM);
+  backMotor(backPWM);
+
 }

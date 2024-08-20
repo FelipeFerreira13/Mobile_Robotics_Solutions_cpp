@@ -27,6 +27,10 @@ static int previous_enc_b = 0;
 static float linear_tolerance  = 2.5;  //  [cm]
 static float angular_tolerance = 1;  //  [degrees]
 
+static simpleControl leftControl;
+static simpleControl rightControl;
+static simpleControl backControl;
+
 //Functions protofunctions
 
 void PositionDriver( float desired_x, float desired_y, float desired_th );  // Defines the position to go to
@@ -34,6 +38,7 @@ void SetPosition( float x, float y, float th ); // Set the current robot positio
 float get_x();
 float get_y();
 float get_th();
+void cmd_drive( float vx, float vy, float vth );
 
 #endif
 
