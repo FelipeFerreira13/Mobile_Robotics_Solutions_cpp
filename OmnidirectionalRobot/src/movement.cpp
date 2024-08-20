@@ -3,7 +3,7 @@
 void SetPosition( float x, float y, float th ){
   x_global = x;
   y_global = y;
-  th_global = th;
+  offset_th = -vmx_ptr->ahrs.GetYaw() - th;
 }
 
 float get_x() { return x_global;  }
@@ -70,6 +70,8 @@ void PositionDriver( float desired_x, float desired_y, float desired_th ) {
         x_global  = x_global  + delta_x;
         y_global  = y_global  + delta_y;
         th_global = th_global + ((delta_th / PI) * 180);  //  [degrees/s]
+
+        th_global = -vmx_ptr->ahrs.GetYaw() - offset_th;
 
         th_global = Remainder(th_global, 360);
 
