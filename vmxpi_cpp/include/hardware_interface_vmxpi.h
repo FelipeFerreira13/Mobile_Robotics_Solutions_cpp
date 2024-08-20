@@ -9,6 +9,8 @@
 #include "digital_inputs.h"
 #include "digital_outputs.h"
 #include "analog_inputs.h"
+#include "imu.h"
+
 
 inline VMXPi *vmx_ptr;
 
