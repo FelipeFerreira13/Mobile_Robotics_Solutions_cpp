@@ -88,3 +88,10 @@ This project were created in a way that you can use any hardware you want, makin
 |------------------|-|-------------------------------------------|
 | `Init`     | int *INA*, int *INB* | Initialize the peripheral |
 | `SetMotorPWM`     |  Defines the motor PWM    |
+
+
+## CONTACT
+If you need support or have any suggestions or proposals please let me know:
+
+- Send email to felipeferreira1310@hotmail.com with a clear description of your needs.
+- Github Issues.
