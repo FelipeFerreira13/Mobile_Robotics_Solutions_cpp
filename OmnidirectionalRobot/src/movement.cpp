@@ -4,6 +4,7 @@ void SetPosition( float x, float y, float th ){
   x_global = x;
   y_global = y;
   offset_th = -vmx_ptr->ahrs.GetYaw() - th;
+  th_global = th;
 }
 
 float get_x() { return x_global;  }
