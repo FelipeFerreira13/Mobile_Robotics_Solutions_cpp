@@ -5,7 +5,7 @@
 
 #include "constants.h"
 
-enum GRIPPER { GRIPPER_OPEN = 50, GRIPPER_CLOSE = 150 };
+enum GRIPPER { GRIPPER_OPEN = 50, GRIPPER_CUBE = 140, GRIPPER_CLOSE = 150 };
 
 static int ENCODER_BACK     = 0;
 static int ENCODER_RIGHT    = 1;
