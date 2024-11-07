@@ -15,8 +15,6 @@ float simpleControl::motorControl(float desiredSpeed, float currentSpeed, float 
     if( error == 0 ){ correction = 0;}
     else{ correction  = max( min( correction + incrementPWM, 100.0 ), -100.0 ); }
 
-    printf("correction: %f\n", correction);
-
     Desired_PWM = max( min( Desired_PWM + correction, 255.0 ),  -255.0 );
 
     if (desiredSpeed == 0){ Desired_PWM = 0; }
